@@ -26,12 +26,10 @@ describe('Realizando testes - PRODUCTS MODEL:', function () {
       .resolves([[undefined]]);
     
     const productFirstCall = await productsModel.findById(1);
-
     expect(productFirstCall).to.be.an('object');
     expect(productFirstCall).to.be.deep.equal(productId);
 
     const productSecondCall = await productsModel.findById(999); 
-
     expect(productSecondCall).to.be.equal(undefined);
   });
 });

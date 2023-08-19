@@ -1,5 +1,5 @@
 const express = require('express');
-const { productsModel } = require('./models');
+const { productsModel, salesModel } = require('./models');
 
 const app = express();
 
@@ -18,6 +18,27 @@ app.get('/products/:productId', async (req, res) => {
   const product = await productsModel.findById(productId);
   if (!product) return res.status(404).json({ message: 'Product not found' });
   return res.status(200).json(product);
+});
+
+app.get('/sales', async (_req, res) => {
+  const sales = await salesModel.findAll();
+  return res.status(200).json(sales);
+});
+
+app.get('/sales/:id', async (req, res) => {
+  const { id } = req.params;
+  const sale = await salesModel.findById(id);
+  
+  if (!sale || sale.length === 0) {
+    return res.status(404).json({ message: 'Sale not found' });
+  }
+  
+  const saleWithoutId = sale.map((saleItem) => {
+    const { saleId, ...saleDataWithoutId } = saleItem;
+    return saleDataWithoutId;
+  });
+
+  return res.status(200).json(saleWithoutId);
 });
 
 module.exports = app;
