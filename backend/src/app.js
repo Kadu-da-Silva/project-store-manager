@@ -2,6 +2,7 @@ const express = require('express');
 const { productsModel, salesModel } = require('./models');
 
 const app = express();
+app.use(express.json());
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_req, res) => {
@@ -18,6 +19,14 @@ app.get('/products/:productId', async (req, res) => {
   const product = await productsModel.findById(productId);
   if (!product) return res.status(404).json({ message: 'Product not found' });
   return res.status(200).json(product);
+});
+
+app.post('/products', async (req, res) => {
+  const { name } = req.body;
+
+  const productId = await productsModel.insert(name);
+
+  return res.status(201).json(productId);
 });
 
 app.get('/sales', async (_req, res) => {

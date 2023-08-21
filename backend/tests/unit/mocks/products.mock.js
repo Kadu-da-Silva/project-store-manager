@@ -3,6 +3,11 @@ const productId = {
   name: 'Martelo de Thor',
 };
 
+const newProduct = {
+  id: 4,
+  name: 'Teste',
+};
+
 const allProducts = [
   {
     id: 1,
@@ -19,5 +24,6 @@ const allProducts = [
 ];
 module.exports = {
   productId,
+  newProduct,
   allProducts,
 };
