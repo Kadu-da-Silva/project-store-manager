@@ -57,4 +57,28 @@ app.get('/sales/:id', async (req, res) => {
   return res.status(200).json(saleWithoutId);
 });
 
+app.post('/sales', async (req, res) => {
+  const saleItems = req.body;
+
+  const saleId = await salesModel.insertSale();
+
+  const insertedItems = await Promise.all(
+    saleItems.map(async (item) => {
+      const { productId, quantity } = item;
+      await salesModel.insertSaleProduct(saleId, productId, quantity);
+      return {
+        productId,
+        quantity,
+      };
+    }),
+  );
+
+  const saleResponse = {
+    id: saleId,
+    itemsSold: insertedItems,
+  };
+
+  return res.status(201).json(saleResponse);
+});
+
 module.exports = app;
