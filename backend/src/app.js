@@ -1,5 +1,6 @@
 const express = require('express');
 const { productsModel, salesModel } = require('./models');
+const { validateSale } = require('./middlewares/validateSale');
 
 const app = express();
 app.use(express.json());
@@ -57,7 +58,7 @@ app.get('/sales/:id', async (req, res) => {
   return res.status(200).json(saleWithoutId);
 });
 
-app.post('/sales', async (req, res) => {
+app.post('/sales', validateSale, async (req, res) => {
   const saleItems = req.body;
 
   const saleId = await salesModel.insertSale();
