@@ -1,6 +1,7 @@
 const express = require('express');
 const { productsModel, salesModel } = require('./models');
 const { validateSale } = require('./middlewares/validateSale');
+const { validateProductId, validateProductName } = require('./middlewares/validateProduct');
 
 const app = express();
 app.use(express.json());
@@ -15,26 +16,29 @@ app.get('/products', async (_req, res) => {
   return res.status(200).json(products);
 });
 
-app.get('/products/:productId', async (req, res) => {
+app.get('/products/:productId', validateProductId, async (req, res) => {
   const { productId } = req.params;
   const product = await productsModel.findById(productId);
-  if (!product) return res.status(404).json({ message: 'Product not found' });
   return res.status(200).json(product);
 });
 
-app.post('/products', async (req, res) => {
+app.post('/products', validateProductName, async (req, res) => {
   const { name } = req.body;
-
-  if (!name) return res.status(400).json({ message: '"name" is required' });
-  if (name.length < 5) {
-    return res.status(422).json({ 
-      message: '"name" length must be at least 5 characters long',
-    });
-  }
-
   const productId = await productsModel.insert(name);
-
   return res.status(201).json(productId);
+});
+
+app.put('/products/:productId', validateProductId, validateProductName, async (req, res) => {
+  const { productId } = req.params;
+  const { name } = req.body;
+  const updatedProduct = await productsModel.update(productId, name);
+  return res.status(200).json(updatedProduct);
+});
+
+app.delete('/products/:productId', validateProductId, async (req, res) => {
+  const { productId } = req.params;
+  await productsModel.deleteProduct(productId);
+  return res.status(204).send();
 });
 
 app.get('/sales', async (_req, res) => {

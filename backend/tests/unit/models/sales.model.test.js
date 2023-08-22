@@ -9,7 +9,7 @@ describe('Realizando testes - SALES MODEL:', function () {
     sinon.restore();
   });
 
-  it('Recuperando sales com sucesso', async function () {
+  it('Recuperando sales', async function () {
     sinon.stub(connection, 'execute').resolves([allSales]);
     
     const sales = await salesModel.findAll();
@@ -18,11 +18,7 @@ describe('Realizando testes - SALES MODEL:', function () {
     expect(sales).to.be.deep.equal(allSales);
   });
 
-  describe('Recuperando product por id com sucesso e verificando os elementos', function () {
-    afterEach(function () {
-      sinon.restore();
-    });
-
+  describe('Recuperando product por id e verificando elementos', function () {
     it('deve retornar um array com dois objetos', async function () {
       sinon.stub(connection, 'execute').resolves([saleIds]);
 
@@ -45,5 +41,14 @@ describe('Realizando testes - SALES MODEL:', function () {
       const sale = await salesModel.findById(999);
       expect(sale).to.be.equal(undefined);
     });
+  });
+
+  it('Inserindo sale', async function () {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
+
+    const newSale = await salesModel.insertSale();
+
+    expect(newSale).to.be.an('number');
+    expect(newSale).to.be.deep.equal(1);
   });
 });

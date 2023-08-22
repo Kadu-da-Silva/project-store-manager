@@ -22,6 +22,7 @@ const allProducts = [
     name: 'Escudo do Capitão América',
   },
 ];
+
 module.exports = {
   productId,
   newProduct,
