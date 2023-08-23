@@ -3,6 +3,11 @@ const productId = {
   name: 'Martelo de Thor',
 };
 
+const updateProduct = {
+  id: 1,
+  name: 'Teste',
+};
+
 const newProduct = {
   id: 4,
   name: 'Teste',
@@ -27,4 +32,5 @@ module.exports = {
   productId,
   newProduct,
   allProducts,
+  updateProduct,
 };
