@@ -81,7 +81,7 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
     expect(result).to.be.deep.equal(updateProduct);
   });
 
-  it.only('Deletando produto', async function () {
+  it('Deletando produto', async function () {
     const req = {
       params: { id: 1 },
     };
