@@ -7,12 +7,14 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const product = await productsModel.findById(id);
+
+  if (!product) return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
   return { status: 'SUCCESSFUL', data: product };
 };
 
 const createProduct = async (name) => {
   const newProduct = await productsModel.insert(name);
-  return { status: 'CREATE_SUCCESSFUL', data: newProduct };
+  return { status: 'CREATED', data: newProduct };
 };
 
 const updateProduct = async (id, name) => {
@@ -22,7 +24,7 @@ const updateProduct = async (id, name) => {
 
 const deleteProduct = async (id) => {
   await productsModel.deleteProduct(id);
-  return { status: 'DELETE_SUCCESSFUL' };
+  return { status: 'DELETE' };
 };
 
 module.exports = {

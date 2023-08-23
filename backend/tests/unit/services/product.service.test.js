@@ -1,15 +1,14 @@
-const chai = require('chai');
+const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { productService } = require('../../../src/services');
 const { productsModel } = require('../../../src/models');
 const { allProducts, productId, newProduct, updateProduct } = require('../mocks/products.mock');
 
-const { expect } = chai;
-
 const success = 'SUCCESSFUL';
-const createSuccess = 'CREATE_SUCCESSFUL';
-const deleteSuccess = 'DELETE_SUCCESSFUL';
+const createSuccess = 'CREATED';
+const deleteSuccess = 'DELETE';
+const notFound = 'NOT_FOUND';
 
 describe('Realizando testes - PRODUCT SERVICE', function () {
   afterEach(function () {
@@ -36,6 +35,17 @@ describe('Realizando testes - PRODUCT SERVICE', function () {
     expect(status).to.be.equal(success);
     expect(data).to.be.an('object');
     expect(data).to.be.deep.equal(productId);
+  });
+
+  it('Recuperando product por id com erro', async function () {
+    sinon.stub(connection, 'execute').resolves([[undefined]]);
+    sinon.stub(productsModel, 'findById').resolves(undefined);
+    
+    const { status, data } = await productService.getById(999);
+
+    expect(status).to.be.equal(notFound);
+    expect(data).to.be.an('object');
+    expect(data).to.be.deep.equal({ message: 'Product not found' });
   });
 
   it('Inserindo produto', async function () {
