@@ -11,6 +11,7 @@ const { allProducts, productId, newProduct, updateProduct } = require('../mocks/
 
 const success = 'SUCCESSFUL';
 const createSuccess = 'CREATED';
+const deleteSuccess = 'DELETE';
 
 describe('Realizando testes - PRODUCT CONTROLLER', function () {
   afterEach(function () {
@@ -78,5 +79,21 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
 
     expect(res.status).to.be.calledWith(200);
     expect(result).to.be.deep.equal(updateProduct);
+  });
+
+  it.only('Deletando produto', async function () {
+    const req = {
+      params: { id: 1 },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      end: sinon.stub().returnsThis(),
+    };
+    sinon.stub(productService, 'deleteProduct').resolves({ status: deleteSuccess });
+
+    const result = await productController.deleteProduct(req, res);
+    console.log(result);
+
+    expect(res.status).to.be.calledWith(204);
   });
 });

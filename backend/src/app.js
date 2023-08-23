@@ -1,7 +1,7 @@
 const express = require('express');
-const { productsModel, salesModel } = require('./models');
+const { salesModel } = require('./models');
 const { validateSale } = require('./middlewares/validateSale');
-const { validateProductId, validateProductName } = require('./middlewares/validateProduct');
+const { productRoutes } = require('./routes');
 
 const app = express();
 app.use(express.json());
@@ -11,35 +11,7 @@ app.get('/', (_req, res) => {
   res.json({ status: 'Store Manager UP!' });
 });
 
-app.get('/products', async (_req, res) => {
-  const products = await productsModel.findAll();
-  return res.status(200).json(products);
-});
-
-app.get('/products/:productId', validateProductId, async (req, res) => {
-  const { productId } = req.params;
-  const product = await productsModel.findById(productId);
-  return res.status(200).json(product);
-});
-
-app.post('/products', validateProductName, async (req, res) => {
-  const { name } = req.body;
-  const productId = await productsModel.insert(name);
-  return res.status(201).json(productId);
-});
-
-app.put('/products/:productId', validateProductId, validateProductName, async (req, res) => {
-  const { productId } = req.params;
-  const { name } = req.body;
-  const updatedProduct = await productsModel.update(productId, name);
-  return res.status(200).json(updatedProduct);
-});
-
-app.delete('/products/:productId', validateProductId, async (req, res) => {
-  const { productId } = req.params;
-  await productsModel.deleteProduct(productId);
-  return res.status(204).send();
-});
+app.use('/products', productRoutes);
 
 app.get('/sales', async (_req, res) => {
   const sales = await salesModel.findAll();
