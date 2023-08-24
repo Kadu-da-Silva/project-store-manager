@@ -87,4 +87,18 @@ describe('Realizando testes(integração) - PRODUCT ROUTE', function () {
       });
     });
   });
+
+  // describe('Testando rota PUT', function () {
+  //   it('Atualizando produto', async function () {
+  //     sinon.stub(connection, 'execute').resolves({ affectedRows: 1 });
+  
+  //     const { body, statusCode } = await chai.request(app)
+  //       .put('/products/1')
+  //       .send({ name: 'Teste' });
+  
+  //     expect(statusCode).to.be.equal(200);
+  //     expect(body).to.be.an('object');
+  //     expect(body).to.be.deep.equal(updateProduct);
+  //   });
+  // });
 });
