@@ -2,9 +2,9 @@
 
 Indo para o Backend, apresento a vocês o Projeto Store Manager. Uma baita API RESTful em camadas.
 
-A API a construída é um sistema de gerenciamento de vendas em que é possível criar, visualizar, deletar e atualizar produtos e vendas. Para o banco, utilizo MySQL para a gestão de dados.
+Essa API é um sistema de gerenciamento de vendas em que é possível criar, visualizar, deletar e atualizar produtos e vendas. Para o banco, utilizo MySQL para a gestão de dados.
 
-Também desenvolver testes para garantir as funcionalidade das implementações, uma habilidade essencial para a pessoa desenvolvedora.
+Também desenvolvi testes para garantir as funcionalidade das implementações, uma habilidade essencial para a pessoa desenvolvedora.
 
 ### Habilidades trabalhadas:
 
